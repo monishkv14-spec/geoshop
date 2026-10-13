@@ -1,0 +1,84 @@
+/* src/styles/designTokens.css */
+:root {
+  /* Colour palette */
+  --color-bg-base: #060912; /* ink */
+  --color-bg-surface: #0e1424; /* panel */
+  --color-bg-raised: #141b2e; /* raised */
+  --color-bg-glass: rgba(255,255,255,0.04);
+  --color-bg-glass-border: rgba(255,255,255,0.08);
+  --color-text-primary: #f1f5ff;
+  --color-text-secondary: #a5b0c8;
+  --color-text-muted: #6b7690;
+  --color-brand-start: #7c5cff; /* violet */
+  --color-brand-end: #22d3ee;   /* cyan */
+  --color-brand: linear-gradient(90deg, var(--color-brand-start), var(--color-brand-end));
+  --color-accent: #ff7a59; /* coral */
+  --color-tier-cheapest: #34d399;
+  --color-tier-mid: #fbbf24;
+  --color-tier-expensive: #fb7185;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #fb7185;
+  --color-info: #22d3ee;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-headings: 'Space Grotesk', system-ui, sans-serif;
+  --text-xs: 0.75rem;   /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-base: 1rem;    /* 16px */
+  --text-lg: 1.25rem;   /* 20px */
+  --text-xl: 1.75rem;   /* 28px */
+  --text-2xl: 2.5rem;   /* 40px */
+  --text-3xl: 3.5rem;   /* 56px */
+
+  /* Spacing (8‑pt scale) */
+  --space-0: 0;
+  --space-1: 0.5rem;   /* 8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-5: 2.5rem;   /* 40px */
+
+  /* Radii */
+  --radius-sm: 0.75rem;   /* 12px */
+  --radius-md: 1rem;      /* 16px */
+  --radius-lg: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-glass: 0 4px 12px rgba(0,0,0,0.2), inset 0 0 0 1px var(--color-bg-glass-border);
+  --shadow-elevated: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-base: #f5f7ff;
+    --color-bg-surface: #ffffff;
+    --color-bg-raised: #f0f4ff;
+    --color-text-primary: #1a1a2e;
+    --color-text-secondary: #4a4e69;
+    --color-text-muted: #8a93b2;
+  }
+}
+
+/* Utility classes */
+.bg-glass {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--color-bg-glass-border);
+  border-radius: var(--radius-md);
+}
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+
+.btn-primary {
+  background: var(--color-brand);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.btn-primary:hover { background: linear-gradient(90deg, var(--color-brand-end), var(--color-brand-start)); }

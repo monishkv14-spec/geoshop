@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Location {
+  id              String          @id @default(uuid())
+  name            String          @unique
+  code            String          @unique
+  lat             Float
+  lon             Float
+  currency        String
+  currencySymbol  String          @default("$")
+  flag            String          @default("🌐")
+  atmosphereColor String
+  websites        Website[]
+  searchHistories SearchHistory[]
+}
+
+model Website {
+  id            String    @id @default(uuid())
+  name          String
+  locationId    String
+  location      Location  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  baseSearchUrl String
+  trustScore    Float
+  categories    String    @default("general")
+  deliveryDays  Int       @default(5)
+  returnDays    Int       @default(30)
+  logoInitial   String    @default("S")
+  logoColor     String    @default("#22d3ee")
+  listings      Listing[]
+}
+
+model Product {
+  id              String          @id @default(uuid())
+  name            String
+  brand           String
+  category        String
+  subcategory     String?
+  tags            String?
+  aliases         String?
+  imageEmoji      String
+  image           String?
+  description     String
+  source          String          @default("Catalog")
+  isGenerated     Boolean         @default(false)
+  listings        Listing[]
+  searchHistories SearchHistory[]
+}
+
+model Listing {
+  id           String      @id @default(uuid())
+  productId    String
+  product      Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  websiteId    String
+  website      Website     @relation(fields: [websiteId], references: [id], onDelete: Cascade)
+  price        Float
+  currency     String
+  rating       Float
+  reviewCount  Int
+  inStock      Boolean     @default(true)
+  returnDays   Int         @default(30)
+  priceHistory String
+  priceType    String      @default("Catalog")
+  sourceName   String?
+  fetchedAt    DateTime?
+  directUrl    String?
+  savedItems   SavedItem[]
+}
+
+model ProductCache {
+  id        String   @id @default(uuid())
+  query     String   @unique
+  payload   String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model SearchHistory {
+  id         String    @id @default(uuid())
+  query      String
+  productId  String?
+  product    Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
+  locationId String?
+  location   Location? @relation(fields: [locationId], references: [id], onDelete: SetNull)
+  searchedAt DateTime  @default(now())
+}
+
+model SavedItem {
+  id        String   @id @default(uuid())
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  savedAt   DateTime @default(now())
+}
