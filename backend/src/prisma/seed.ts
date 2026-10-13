@@ -315,14 +315,16 @@ async function main() {
   // ── 3. Generate product catalog ──────────────────────────────────────────
   console.log('📦 Generating product catalog...');
   const catalogRaw = generateCatalogProducts();
-  console.log(`✅ ${catalogRaw.length} products generated in memory.`);
+  // Select top 200 core/flagship products for optimal production database performance on Railway
+  const catalogSelected = catalogRaw.slice(0, 200);
+  console.log(`✅ ${catalogSelected.length} products selected for database seeding.`);
 
   // ── 4. Generate listings with category-fit logic ─────────────────────────
   const productRows: any[] = [];
   const listingRows: any[] = [];
 
-  for (let idx = 0; idx < catalogRaw.length; idx++) {
-    const p = catalogRaw[idx];
+  for (let idx = 0; idx < catalogSelected.length; idx++) {
+    const p = catalogSelected[idx];
     const productId = crypto.randomUUID();
     const rand = pseudoRandom(idx + 101);
 
