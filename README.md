@@ -233,31 +233,20 @@ npm test
 
 ## 🚀 Production Deployment Guide
 
-### Frontend Deployment (Vercel / Netlify)
-1. Build production bundle:
-   ```bash
-   cd frontend
-   npm run build
-   ```
-2. Deploy the generated `dist/` directory to Vercel or Netlify.
-3. Configure environment variable:
-   ```env
-   VITE_API_BASE_URL=https://your-backend-api.onrender.com/api
-   ```
+### Production Deployment (Vercel & Railway)
+👉 **See the complete step-by-step guide in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**
 
-### Backend & Database Deployment (Render / Railway / Supabase)
-1. Provision a PostgreSQL instance on Render, Railway, or Supabase.
-2. In `backend/.env`, set `DATABASE_URL`:
-   ```env
-   DATABASE_URL="postgresql://user:password@ep-host.postgresql.provider.com:5432/geoshop?sslmode=require"
-   ```
-3. Update `backend/prisma/schema.prisma` datasource provider from `"sqlite"` to `"postgresql"`.
-4. Deploy migrations and start:
-   ```bash
-   npx prisma migrate deploy
-   npm run build
-   npm start
-   ```
+1. **Push to GitHub**: Push the repository to GitHub (`git push -u origin main`).
+2. **Deploy Backend on Railway**:
+   - Create a project on [Railway](https://railway.app), deploy from GitHub, set Root Directory to `/backend`.
+   - Add a **PostgreSQL** database service in Railway.
+   - Set environment variables (`DATABASE_URL`, `NODE_ENV=production`, `CORS_ORIGIN=*`, `JWT_SECRET`).
+   - Run `npm run db:setup` in Railway to initialize tables and populate seed data.
+   - Generate a public domain (e.g. `https://geoshop-backend.up.railway.app`).
+3. **Deploy Frontend on Vercel**:
+   - Import project in [Vercel](https://vercel.com), set Root Directory to `frontend`.
+   - Set `VITE_API_BASE_URL` to your Railway domain ending with `/api` (e.g., `https://geoshop-backend.up.railway.app/api`).
+   - Click **Deploy**.
 
 ---
 
